@@ -1,3 +1,10 @@
+#admin-menu a.time-entry-status-transitions-admin {
+    background-position: 0% 50%;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    background-image: url(../images/clock.gif);
+}
+
 .icon-clock { background-image: url(../images/clock.gif); }
 .icon-start { background-image: url(../images/time_start.png); }
 .icon-pause { background-image: url(../images/time_pause.png); }
