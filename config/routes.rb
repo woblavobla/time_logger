@@ -10,6 +10,9 @@ if Rails::VERSION::MAJOR >= 4
     match 'time_loggers/show_report', :to => 'time_loggers#show_report', via: [:get, :post]
     match 'time_loggers/delete', :to => 'time_loggers#delete', via: [:get, :post]
     match 'time_loggers', :to => 'time_loggers#index', via: [:get, :post]
+    resources :time_entry_status_transitions_admin
+    get 'time_entry_status_transitions_admin/update_activities', :as => 'update_activities'
+    get 'update_activities', :to => 'time_entry_status_transitions_admin#update_activities', :via => [:get]
   end
 elsif Rails::VERSION::MAJOR >= 3
   Rails.application.routes.draw do

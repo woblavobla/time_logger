@@ -1,0 +1,56 @@
+<%= javascript_include_tag 'time_entry_status_transitions_admin.js', :plugin => :time_logger %>
+
+<h3><%= l(:time_logger_settings_default_roles_activity) %></h3>
+<div id="activity" class="box">
+  <% @activities = TimeEntryStatusTransition.eager_load(:project, :issue_status).all.to_a %>
+  <% @activity = TimeEntryStatusTransition.new %>
+  <div class="autoscroll">
+    <table class="list">
+      <thead>
+      <tr>
+        <th class="zombie"></th>
+        <th><%= l(:time_logger_settings_activity_project) %></th>
+        <th><%= l(:time_logger_settings_activity_issue_status) %></th>
+        <th><%= l(:time_logger_settings_activity) %></th>
+        <th/>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% if @activities.empty? %>
+          <tr class="odd">
+            <td class="msg" colspan="4"><%= l(:time_logger_settings_no_saved_activities) %></td>
+          </tr>
+      <% else %>
+          <% @activities.each do |activity| %>
+              <tr class="<%= cycle('odd', 'even') %>">
+                <td/>
+                <td><%= activity.project.name %></td>
+                <td><%= activity.issue_status.name %></td>
+                <td><%= activity.activity_by_id.name %></td>
+                <td><%= link_to l(:time_logger_label_delete),
+                                time_entry_status_transitions_admin_path(activity),
+                                :method => :delete,
+                                :class => 'icon icon-del' %></td>
+              </tr>
+          <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="add_activities">
+    <%= form_for @activity, :url => time_entry_status_transitions_admin_index_path(@activity), :html => {:method => :post} do |f| %>
+        <%= f.label :project %>
+        <%= f.select :project, options_from_collection_for_select(@projects.all, 'id', 'name'), {}, {:id => :project_select} %>
+
+        <%= f.label l(:time_logger_settings_activity_issue_status) %>
+        <%= f.select :issue_status, options_from_collection_for_select(IssueStatus.all, 'id', 'name') %>
+
+        <%= f.label l(:time_logger_settings_activity) %>
+        <%= f.select :activity_id, options_from_collection_for_select(@activities_for_select.all, 'id', 'name'), {}, {:id => :activity_select} %>
+
+        <%= f.submit l(:time_logger_settings_activity_add) %>
+    <% end %>
+  </div>
+</div>

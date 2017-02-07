@@ -20,7 +20,7 @@ Redmine::Plugin.register :time_logger do
 
     requires_redmine :version_or_higher => '1.1.0'
 
-    settings :default => { 'refresh_rate' => '60', 'status_transitions' => {}, 'redirect_to_new_time_entry' => 'off' }, :partial => 'settings/time_logger'
+    settings :default => { 'refresh_rate' => '60', 'status_transitions' => {}, 'redirect_to_new_time_entry' => 'off', 'default_roles_activities' => {} }, :partial => 'settings/time_logger'
 
     permission :view_others_time_loggers, :time_loggers => :index
     permission :delete_others_time_loggers, :time_loggers => :delete
@@ -33,4 +33,5 @@ Redmine::Plugin.register :time_logger do
             :param => :project_id,
             :if => Proc.new { User.current.logged? }
         }
+    menu :admin_menu, :time_entry_status_transitions_admin, {:controller => :time_entry_status_transitions_admin, :action => :index}, :caption => :time_logger_settings_activity_admin_caption
 end
