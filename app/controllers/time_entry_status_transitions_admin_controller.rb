@@ -1,4 +1,7 @@
 class TimeEntryStatusTransitionsAdminController < ApplicationController
+  
+  layout 'admin'
+  
   def index
     @projects = Project.includes(:enabled_modules).where(:enabled_modules => {:name => 'time_tracking'})
     @activities_for_select = Enumeration.where(:type => "TimeEntryActivity").where("(#{Enumeration.table_name}.project_id is null) or (#{Enumeration.table_name}.project_id = '#{@projects.first.id}')")
